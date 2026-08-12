@@ -1,0 +1,38 @@
+[
+  {
+    "id": "597f79d8-e2c5-4806-b3ad-ea2846d73b84",
+    "createdAt": "2026-08-12T16:31:17.765Z",
+    "updatedAt": "2026-08-12T16:31:17.765Z",
+    "name": "assam",
+    "enabled": true,
+    "order": 1,
+    "slug": "assam"
+  },
+  {
+    "id": "37933932-f343-4991-9a7f-c380e0f81077",
+    "createdAt": "2026-08-12T16:31:35.663Z",
+    "updatedAt": "2026-08-12T16:31:35.663Z",
+    "name": "dhudhnoi",
+    "enabled": true,
+    "order": 2,
+    "slug": "dhudhnoi"
+  },
+  {
+    "id": "f5177d86-0335-408c-a3bc-5be5c13b3a40",
+    "createdAt": "2026-08-12T16:31:46.817Z",
+    "updatedAt": "2026-08-12T16:32:08.574Z",
+    "name": "breking news",
+    "enabled": true,
+    "order": 3,
+    "slug": "breking-news"
+  },
+  {
+    "id": "5454028a-cbc1-4626-a141-b4b6a9fb2c62",
+    "createdAt": "2026-08-12T16:31:58.402Z",
+    "updatedAt": "2026-08-12T16:31:58.402Z",
+    "name": "sports",
+    "enabled": true,
+    "order": 4,
+    "slug": "sports"
+  }
+]

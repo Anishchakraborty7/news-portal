@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="750" viewBox="0 0 1200 750" role="img" aria-label="News placeholder">
+  <rect width="1200" height="750" fill="#e9e3d8"/>
+  <rect x="78" y="86" width="1044" height="578" rx="20" fill="#ffffff"/>
+  <rect x="120" y="140" width="410" height="34" fill="#0b2239"/>
+  <rect x="120" y="216" width="780" height="40" fill="#c51f34"/>
+  <rect x="120" y="292" width="950" height="24" fill="#b8b0a3"/>
+  <rect x="120" y="342" width="880" height="24" fill="#b8b0a3"/>
+  <rect x="120" y="392" width="610" height="24" fill="#b8b0a3"/>
+  <circle cx="960" cy="158" r="48" fill="#f3b23c"/>
+</svg>

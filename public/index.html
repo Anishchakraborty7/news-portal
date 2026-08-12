@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NR KHABOR | Premium Digital News</title>
+  <meta name="description" content="NR KHABOR is a premium 24x7 digital news channel covering breaking news, regional updates, videos, analysis, and public-interest stories.">
+  <link rel="canonical" href="/">
+  <meta property="og:title" content="NR KHABOR | Premium Digital News">
+  <meta property="og:description" content="Breaking news, latest updates, videos, and analysis.">
+  <meta property="og:image" content="/assets/nr-khabar-logo.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <script defer src="/js/site.js?v=5"></script>
+</head>
+<body data-page="home">
+  <header class="site-header">
+    <div class="topline">
+      <div class="topline-left">
+        <span class="live-pill"><span class="pulse-ring"></span>LIVE</span>
+        <strong data-brand-name>NR KHABOR 24x7</strong>
+        <span class="topline-tagline">Trusted updates. Clear context. Fast reporting.</span>
+      </div>
+      <div class="topline-right">
+        <span class="header-date" data-live-date></span>
+      </div>
+    </div>
+    <div class="nav-shell">
+      <button class="icon-button menu-toggle" aria-label="Open navigation">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+      <a class="brand" href="/">
+        <span class="brand-mark" data-brand-logo><img src="/assets/nr-khabar-logo.svg" alt="NR KHABOR Logo"></span>
+        <span><strong data-brand-name>NR KHABOR</strong><small data-brand-tagline>News that never sleeps</small></span>
+      </a>
+      <nav class="main-nav" data-mobile-nav>
+        <a href="/" class="nav-link active">Home</a>
+        <a href="/search" class="nav-link">Latest News</a>
+        <a href="#all-news" class="nav-link">Categories</a>
+        <a href="/search?type=video" class="nav-link">Videos</a>
+        <a href="#footer" class="nav-link">About</a>
+        <a href="#footer" class="nav-link">Contact</a>
+      </nav>
+      <form class="header-search" action="/search">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input name="q" placeholder="Search news..." aria-label="Search news">
+        <button type="submit">Search</button>
+      </form>
+      <a class="admin-link" href="/admin">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7a5 5 0 0 0-5-5z"></path></svg>
+        <span>Admin</span>
+      </a>
+    </div>
+    <div class="category-strip-wrapper">
+      <div class="category-strip" data-categories><a href="/" class="active-cat">All</a></div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-grid">
+      <div class="hero-main-col">
+        <div class="section-heading">
+          <div class="heading-title-group">
+            <span class="live-dot-pulse"></span>
+            <h1>Breaking News</h1>
+          </div>
+          <div class="live-badge-glow">FLASH</div>
+        </div>
+        <div class="ticker-box">
+          <span class="ticker-label">LATEST</span>
+          <div class="ticker" data-breaking-ticker></div>
+        </div>
+        <div class="breaking-stage" data-breaking-stage></div>
+      </div>
+      <aside class="latest-panel">
+        <div class="section-heading compact">
+          <h2>Recent Updates</h2>
+          <span class="badge-mini">24x7</span>
+        </div>
+        <div class="latest-list-wrapper" data-latest-list></div>
+        <div data-sidebar-ads style="margin-top: 16px;"></div>
+      </aside>
+    </section>
+
+    <section class="ad-strip-wrap">
+      <div class="ad-header-row">
+        <span class="ad-label">SPONSORED PARTNERS</span>
+        <span class="ad-line"></span>
+      </div>
+      <div class="ad-strip" data-ad-strip></div>
+    </section>
+
+    <section class="featured-section">
+      <div class="section-heading">
+        <div class="heading-title-group">
+          <span class="section-accent-bar"></span>
+          <h2>Featured Stories & Multimedia</h2>
+        </div>
+        <div class="slider-controls">
+          <button class="icon-button" data-slide-prev aria-label="Previous Slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="icon-button" data-slide-next aria-label="Next Slide">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+      </div>
+      <div class="featured-track" data-featured-track></div>
+    </section>
+
+    <section class="all-news-section" id="all-news">
+      <div class="section-heading">
+        <div class="heading-title-group">
+          <span class="section-accent-bar"></span>
+          <h2>All News Coverage</h2>
+        </div>
+        <button class="text-button load-more-btn" data-load-more>
+          <span>Load More News</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+      </div>
+      <div class="news-grid" data-news-grid></div>
+    </section>
+
+    <div data-bottom-ads></div>
+  </main>
+
+  <footer class="site-footer" id="footer">
+    <div class="footer-brand-col">
+      <h3 data-footer-brand class="footer-logo">NR KHABOR</h3>
+      <p data-footer-description class="footer-desc">NR KHABOR is a premium 24x7 digital news channel covering breaking news, regional updates, videos, analysis, and public-interest stories.</p>
+      <div class="footer-socials">
+        <span class="social-chip">Live Feed</span>
+        <span class="social-chip">Verified Portal</span>
+      </div>
+    </div>
+    <div class="footer-nav-col">
+      <h4>News Categories</h4>
+      <div class="footer-links" data-footer-categories></div>
+    </div>
+    <div class="footer-contact-col">
+      <h4>Contact & Legal</h4>
+      <p data-footer-contact class="footer-email">contact@example.com</p>
+      <p class="footer-subtext">NR KHABOR News Media Network. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="/admin">Admin Access</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
