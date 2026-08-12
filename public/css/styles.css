@@ -576,10 +576,16 @@ main {
 
 /* Stage Breaking Card */
 .breaking-stage .news-card {
-  min-height: 520px;
+  min-height: auto;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-strong);
   box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 993px) {
+  .breaking-stage .news-card {
+    min-height: 520px;
+  }
 }
 
 .breaking-stage .thumb-wrap {
@@ -587,8 +593,8 @@ main {
 }
 
 .breaking-stage h3 {
-  font-size: clamp(24px, 3.5vw, 38px);
-  line-height: 1.15;
+  font-size: clamp(20px, 3.2vw, 36px);
+  line-height: 1.2;
   font-family: var(--font-heading);
   font-weight: 800;
 }
@@ -1675,8 +1681,66 @@ main {
   .hero-grid {
     gap: 16px;
   }
-  .breaking-stage {
-    margin-bottom: 0;
+  /* Breaking Stage & Hero Card Mobile Optimizations */
+  .breaking-stage .news-card {
+    min-height: auto !important;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .breaking-stage .thumb-wrap {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+  }
+  .breaking-stage .thumb-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+  }
+  .breaking-stage h3 {
+    font-size: 19px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -0.2px;
+  }
+  .breaking-stage .card-body {
+    padding: 14px 12px;
+    gap: 8px;
+  }
+
+  /* Ticker Box Mobile */
+  .ticker-box {
+    margin-bottom: 12px;
+    border-radius: var(--radius-sm);
+  }
+  .ticker-label {
+    padding: 8px 10px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+  .ticker {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  /* Latest Updates Sidebar Items */
+  .latest-thumb {
+    width: 64px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1e293b;
+  }
+  .latest-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .latest-title {
+    font-size: 13px;
+    line-height: 1.3;
   }
 
   /* Ad Strip Cards */
