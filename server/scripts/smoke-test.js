@@ -35,12 +35,12 @@ function cookieFrom(res) {
   child.stderr.on("data", (chunk) => { output += chunk.toString(); });
 
   try {
-    for (let index = 0; index < 30; index += 1) {
+    for (let index = 0; index < 60; index += 1) {
       try {
         const health = await request("/api/home");
         if (health.res.ok) break;
       } catch {}
-      await wait(400);
+      await wait(300);
     }
 
     const home = await request("/api/home");

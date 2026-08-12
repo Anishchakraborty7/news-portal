@@ -126,13 +126,30 @@ function renderAdItem(ad) {
   return `<div class="ad-item ${formatClass}">${content}</div>`;
 }
 
+function getCanonicalUrl(settings, req, pathStr) {
+  const host = req ? (req.get("x-forwarded-host") || req.get("host")) : "";
+  const proto = req ? (req.get("x-forwarded-proto") || req.protocol || "https") : "https";
+  let base = "";
+  if (settings?.siteUrl && !settings.siteUrl.includes("localhost") && !settings.siteUrl.includes("127.0.0.1")) {
+    base = settings.siteUrl.replace(/\/$/, "");
+  } else if (host) {
+    base = `${proto}://${host}`;
+  } else {
+    base = "https://nrkhabar.in";
+  }
+  return `${base}${pathStr.startsWith("/") ? "" : "/"}${pathStr}`;
+}
+
 function renderNewsDetail(settings, categories, article, related, latest, advertisements = [], req) {
   if (req === undefined && advertisements && advertisements.protocol) {
     req = advertisements;
     advertisements = [];
   }
   const category = categories.find((item) => item.id === article.categoryId || item.slug === article.categoryId);
-  const canonical = `${settings.siteUrl || `${req.protocol}://${req.get("host")}`}/news/${article.slug || article.id}`;
+  const canonical = getCanonicalUrl(settings, req, `/news/${article.slug || article.id}`);
+  const whatsappMsg = `${article.title}\n\nRead full story on ${settings.brandName || "NR KHABOR"}:\n${canonical}`;
+  const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappMsg)}`;
+
   let media = `<img class="detail-media" src="${escapeHtml(imageFor(article))}" alt="${escapeHtml(article.title)}">`;
   if (article.contentType === "youtube" && youtubeEmbed(article.youtubeUrl)) {
     media = `<div class="video-frame"><iframe src="${escapeHtml(youtubeEmbed(article.youtubeUrl))}" title="${escapeHtml(article.title)}" loading="lazy" allowfullscreen></iframe></div>`;
@@ -140,11 +157,11 @@ function renderNewsDetail(settings, categories, article, related, latest, advert
     media = `<a class="social-fallback" href="${escapeHtml(article.facebookUrl)}" target="_blank" rel="noopener noreferrer">View on Facebook</a>`;
   }
 
-function hasPosition(ad, target) {
-  if (!ad.position) return target === "home-strip";
-  const posList = String(ad.position).split(",").map((s) => s.trim().toLowerCase());
-  return posList.includes("all") || posList.includes(target.toLowerCase());
-}
+  function hasPosition(ad, target) {
+    if (!ad.position) return target === "home-strip";
+    const posList = String(ad.position).split(",").map((s) => s.trim().toLowerCase());
+    return posList.includes("all") || posList.includes(target.toLowerCase());
+  }
 
   const sidebarAds = advertisements.filter((a) => hasPosition(a, "sidebar"));
   const bottomAds = advertisements.filter((a) => hasPosition(a, "article-bottom"));
@@ -174,7 +191,7 @@ function hasPosition(ad, target) {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
         <span>Share</span>
       </button>
-      <a class="whatsapp-btn" href="https://wa.me/?text=${encodeURIComponent(canonical)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+      <a class="whatsapp-btn" href="${escapeHtml(whatsappUrl)}" target="_blank" rel="noopener noreferrer">WhatsApp</a>
       <button class="copy-btn" data-copy="${escapeHtml(canonical)}">Copy link</button>
     </div>
   </article>

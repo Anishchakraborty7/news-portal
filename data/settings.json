@@ -2,7 +2,7 @@
   "brandName": "NR KHABAR",
   "brandLogo": "/assets/nr-khabar-logo.svg",
   "tagline": "News that never sleeps",
-  "siteUrl": "http://localhost:3000",
+  "siteUrl": "https://nrkhabar.in",
   "description": "NR KHABOR is a premium 24x7 digital news channel covering breaking news, regional updates, videos, analysis, and public-interest stories.",
   "contactEmail": "contact@nrkhabar.com",
   "social": {
