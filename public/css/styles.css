@@ -1682,31 +1682,45 @@ main {
     gap: 16px;
   }
   /* Breaking Stage & Hero Card Mobile Optimizations */
-  .breaking-stage .news-card {
+  .breaking-stage, [data-breaking-stage] {
+    margin-bottom: 16px;
+  }
+  .breaking-stage .news-card, [data-breaking-stage] .news-card {
     min-height: auto !important;
     border-radius: var(--radius-md);
     overflow: hidden;
+    box-shadow: var(--shadow-md);
   }
-  .breaking-stage .thumb-wrap {
-    aspect-ratio: 16 / 9;
-    width: 100%;
-    height: auto;
-    max-height: 220px;
+  .breaking-stage .thumb-wrap, [data-breaking-stage] .thumb-wrap {
+    height: 170px !important;
+    max-height: 170px !important;
+    aspect-ratio: unset !important;
+    width: 100% !important;
+    overflow: hidden !important;
   }
-  .breaking-stage .thumb-wrap img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
+  .breaking-stage .thumb-wrap img, [data-breaking-stage] .thumb-wrap img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 20% !important;
   }
-  .breaking-stage h3 {
-    font-size: 19px !important;
-    line-height: 1.25 !important;
-    letter-spacing: -0.2px;
+  .breaking-stage .card-body, [data-breaking-stage] .card-body {
+    padding: 10px 12px 12px !important;
+    gap: 6px !important;
   }
-  .breaking-stage .card-body {
-    padding: 14px 12px;
-    gap: 8px;
+  .breaking-stage h3, [data-breaking-stage] h3 {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+    font-weight: 800;
+    margin: 2px 0;
+  }
+  .breaking-stage .card-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 13px;
+    margin: 0;
   }
 
   /* Ticker Box Mobile */
@@ -1795,6 +1809,13 @@ main {
 }
 
 @media (max-width: 480px) {
+  .breaking-stage .thumb-wrap {
+    height: 155px !important;
+  }
+  .breaking-stage h3 {
+    font-size: 15px !important;
+    line-height: 1.3 !important;
+  }
   .topline-left strong {
     font-size: 11px;
   }
@@ -1805,7 +1826,7 @@ main {
     font-size: 16px;
   }
   .card-body {
-    padding: 14px;
+    padding: 12px;
   }
 }
 
