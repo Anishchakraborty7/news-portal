@@ -29,7 +29,7 @@ function pageShell({ title, description, image, canonical, body, schema }) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css?v=5">
+  <link rel="stylesheet" href="/css/styles.css?v=8">
   <script type="application/ld+json">${JSON.stringify(schema || {})}</script>
 </head>
 <body>
