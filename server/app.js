@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const fs = require("fs");
 const path = require("path");
 const express = require("express");
 const session = require("express-session");
@@ -60,7 +61,10 @@ const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 12, standardHe
 app.use("/api/auth/login", loginLimiter);
 app.use(requireCsrf);
 
-app.use("/uploads", express.static(path.join(__dirname, "..", "uploads"), { maxAge: isProduction ? "1d" : 0, fallthrough: false }));
+const uploadsDir = path.join(__dirname, "..", "uploads");
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
+
+app.use("/uploads", express.static(uploadsDir, { maxAge: isProduction ? "1d" : 0, fallthrough: true }));
 app.use(express.static(path.join(__dirname, "..", "public"), { maxAge: isProduction ? "1h" : 0 }));
 
 app.get("/admin/login", (req, res) => res.sendFile(path.join(__dirname, "..", "public", "admin", "login.html")));

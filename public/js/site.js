@@ -51,7 +51,7 @@
     const dateStr = dateLabel(item.publishedAt);
     return `<a class="news-card ${featured ? "featured-card" : ""} animate-on-scroll" href="/news/${item.slug || item.id}">
       <div class="thumb-wrap">
-        <img loading="lazy" src="${escapeHtml(imageFor(item))}" alt="${escapeHtml(item.title)}">
+        <img loading="lazy" src="${escapeHtml(imageFor(item))}" alt="${escapeHtml(item.title)}" onerror="this.onerror=null;this.src='/assets/placeholder-news.svg';">
         <div class="card-overlay-gradient"></div>
         ${item.isBreaking ? '<span class="breaking-badge"><span></span>BREAKING</span>' : ""}
         <span class="media-type-tag">${escapeHtml(mediaBadge)}</span>
@@ -74,7 +74,7 @@
     const category = categoryName(item.categoryId);
     return `<a class="latest-item animate-on-scroll" href="/news/${item.slug || item.id}">
       <div class="latest-thumb">
-        <img loading="lazy" src="${escapeHtml(imageFor(item))}" alt="">
+        <img loading="lazy" src="${escapeHtml(imageFor(item))}" alt="" onerror="this.onerror=null;this.src='/assets/placeholder-news.svg';">
       </div>
       <div class="latest-content">
         <span class="latest-category">${escapeHtml(category)}</span>

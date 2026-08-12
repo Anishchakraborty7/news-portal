@@ -33,14 +33,14 @@ class FileSessionStore extends session.Store {
 
   async set(sid, sess, callback) {
     try {
-      await fs.mkdir(this.dir, { recursive: true });
+      await fs.mkdir(this.dir, { recursive: true }).catch(() => {});
       const file = this.filePath(sid);
       const temp = `${file}.${process.pid}.${Date.now()}.tmp`;
-      await fs.writeFile(temp, JSON.stringify(sess, null, 2), "utf8");
-      await fs.rename(temp, file);
-      callback(null);
-    } catch (err) {
-      callback(err);
+      await fs.writeFile(temp, JSON.stringify(sess, null, 2), "utf8").catch(() => {});
+      await fs.rename(temp, file).catch(() => {});
+      if (callback) callback(null);
+    } catch {
+      if (callback) callback(null);
     }
   }
 
