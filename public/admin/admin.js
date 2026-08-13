@@ -136,23 +136,23 @@
       <div class="smart-uploader full-span" data-smart-uploader="${fieldName}">
         <label>${escapeHtml(labelText)}</label>
         <input type="hidden" name="${fieldName}" value="${escapeHtml(currentValue)}">
-        <div class="smart-uploader-preview-wrap ${hasValue ? "" : "hidden"}" data-preview-box>
+        <div class="smart-uploader-preview-wrap ${hasValue ? "" : "hidden"}" data-preview-box style="${hasValue ? "" : "display:none;"}">
           <div class="smart-uploader-preview" data-aspect="${aspect}">
             <img src="${escapeHtml(currentValue || "/assets/placeholder-news.svg")}" alt="Preview" data-preview-img>
           </div>
           <div class="smart-uploader-actions">
             <button type="button" class="text-button" data-change-photo>Choose New Photo</button>
             <button type="button" class="smart-uploader-toggle" data-toggle-url>Paste Image URL</button>
-            <button type="button" class="smart-uploader-toggle" style="color:var(--danger);margin-left:auto;" data-remove-photo>Remove</button>
+            <button type="button" class="smart-uploader-toggle" style="color:var(--admin-accent);margin-left:auto;" data-remove-photo>Remove</button>
           </div>
         </div>
-        <div class="smart-uploader-drop ${hasValue ? "hidden" : ""}" data-drop-zone>
+        <div class="smart-uploader-drop ${hasValue ? "hidden" : ""}" data-drop-zone style="${hasValue ? "display:none;" : ""}">
           <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
           <p>Click or Drag photo here to upload</p>
           <span>Supports JPG, PNG, WEBP (Max 5MB)</span>
-          <input type="file" accept="image/jpeg,image/png,image/webp" data-file-input>
+          <input type="file" accept="image/jpeg,image/png,image/webp" data-file-input style="display:none !important;">
         </div>
-        <div class="smart-uploader-url-field hidden" data-url-container>
+        <div class="smart-uploader-url-field hidden" data-url-container style="display:none;">
           <input placeholder="https://example.com/image.jpg" value="${escapeHtml(currentValue)}" data-url-input>
           <button type="button" class="text-button" data-apply-url>Apply URL</button>
         </div>
@@ -178,12 +178,17 @@
         if (url.trim()) {
           previewImg.src = url;
           previewBox.classList.remove("hidden");
+          previewBox.style.display = "grid";
           dropZone.classList.add("hidden");
+          dropZone.style.display = "none";
         } else {
           previewBox.classList.add("hidden");
+          previewBox.style.display = "none";
           dropZone.classList.remove("hidden");
+          dropZone.style.display = "flex";
         }
         urlContainer.classList.add("hidden");
+        urlContainer.style.display = "none";
       };
 
       dropZone?.addEventListener("click", () => fileInput?.click());
@@ -203,7 +208,8 @@
 
       fileInput?.addEventListener("change", async () => {
         if (!fileInput.files?.[0]) return;
-        dropZone.classList.add("hidden");
+        dropZone.style.display = "none";
+        previewBox.style.display = "grid";
         previewBox.classList.remove("hidden");
         previewImg.style.opacity = "0.5";
         try {
@@ -222,7 +228,11 @@
 
       changeBtn?.addEventListener("click", () => fileInput?.click());
       removeBtn?.addEventListener("click", () => showValue(""));
-      toggleUrlBtn?.addEventListener("click", () => urlContainer.classList.toggle("hidden"));
+      toggleUrlBtn?.addEventListener("click", () => {
+        const isHidden = urlContainer.classList.contains("hidden") || urlContainer.style.display === "none";
+        urlContainer.classList.toggle("hidden", !isHidden);
+        urlContainer.style.display = isHidden ? "flex" : "none";
+      });
       applyUrlBtn?.addEventListener("click", () => showValue(urlInput.value));
     });
   }
@@ -268,8 +278,12 @@
     const select = root.querySelector("[data-content-type]");
     if (!select) return;
     const update = () => {
+      const currentVal = (select.value || "").toLowerCase();
       root.querySelectorAll("[data-field]").forEach((field) => {
-        field.classList.toggle("hidden", !field.dataset.field.split(" ").includes(select.value));
+        const allowedTypes = field.dataset.field.split(" ").map((s) => s.toLowerCase());
+        const matches = allowedTypes.includes(currentVal);
+        field.classList.toggle("hidden", !matches);
+        field.style.display = matches ? "flex" : "none";
       });
     };
     select.addEventListener("change", update);
