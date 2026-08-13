@@ -202,7 +202,7 @@ function renderNewsDetail(settings, categories, article, related, latest, advert
   const whatsappMsg = `${article.title}\n\nRead full story on ${settings.brandName || "NR KHABOR"}:\n${canonical}`;
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappMsg)}`;
 
-  let media = `<img class="detail-media" src="${escapeHtml(imageFor(article))}" alt="${escapeHtml(article.title)}">`;
+  let media = `<img class="detail-media" src="${escapeHtml(imageFor(article))}" alt="${escapeHtml(article.title)}" onerror="this.onerror=null;this.src='/assets/placeholder-news.svg';">`;
   if (article.contentType === "youtube" && youtubeEmbed(article.youtubeUrl)) {
     media = `<div class="video-frame"><iframe src="${escapeHtml(youtubeEmbed(article.youtubeUrl))}" title="${escapeHtml(article.title)}" loading="lazy" allowfullscreen></iframe></div>`;
   } else if (article.contentType === "facebook") {
@@ -218,7 +218,7 @@ function renderNewsDetail(settings, categories, article, related, latest, advert
   const sidebarAds = advertisements.filter((a) => hasPosition(a, "sidebar"));
   const bottomAds = advertisements.filter((a) => hasPosition(a, "article-bottom"));
 
-  const cards = related.map((item) => `<a class="mini-card" href="/news/${item.slug || item.id}"><img src="${escapeHtml(imageFor(item))}" alt=""><span>${escapeHtml(item.title)}</span></a>`).join("");
+  const cards = related.map((item) => `<a class="mini-card" href="/news/${item.slug || item.id}"><img src="${escapeHtml(imageFor(item))}" alt="" onerror="this.onerror=null;this.src='/assets/placeholder-news.svg';"><span>${escapeHtml(item.title)}</span></a>`).join("");
   const latestList = latest.map((item) => `<a class="latest-sidebar-item" href="/news/${item.slug || item.id}"><span>${escapeHtml(item.title)}</span></a>`).join("");
   const body = publicChrome(settings, categories, `
 <main class="detail-layout">
