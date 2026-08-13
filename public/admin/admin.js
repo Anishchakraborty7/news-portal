@@ -9,6 +9,7 @@
     "/admin/advertisements": "advertisements",
     "/admin/slides": "slides",
     "/admin/categories": "categories",
+    "/admin/messages": "messages",
     "/admin/settings": "settings"
   };
   const escapeHtml = (value) => String(value ?? "").replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
@@ -103,7 +104,8 @@
       totalAdvertisements: "Total Ads",
       activeAdvertisements: "Active Ads",
       categories: "Categories",
-      featuredItems: "Featured Items"
+      featuredItems: "Featured Items",
+      totalMessages: "Incoming Messages"
     };
     view.innerHTML = `
       <div class="metric-grid">${Object.entries(labels).map(([key, label]) => `<article class="metric-card"><span>${label}</span><strong>${data[key]}</strong></article>`).join("")}</div>
@@ -554,6 +556,54 @@
     });
   }
 
+  async function messages() {
+    title.textContent = "Messages & Inquiries";
+    setActive("messages");
+    setLoading("Loading customer messages");
+    const items = await api("/api/admin/messages");
+    const rows = items.length
+      ? items.map((item) => {
+          const date = new Date(item.createdAt).toLocaleString();
+          const cleanPhone = (item.phone || "").replace(/\D/g, "");
+          const waUrl = cleanPhone ? `https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(`Hi ${item.name}, regarding your inquiry on NR KHABOR (${item.topic}):`)}` : null;
+          return `<tr>
+            <td><strong>${escapeHtml(item.name)}</strong></td>
+            <td><span class="badge mini">${escapeHtml(item.topic || "General")}</span></td>
+            <td>
+              <div>${item.email ? `<a href="mailto:${escapeHtml(item.email)}">${escapeHtml(item.email)}</a>` : ""}</div>
+              <div>${item.phone ? `<small>${escapeHtml(item.phone)}</small>` : ""}</div>
+            </td>
+            <td><p style="margin:0;max-width:320px;word-break:break-word;font-size:13px;">${escapeHtml(item.message)}</p></td>
+            <td><small>${escapeHtml(date)}</small></td>
+            <td>
+              <div class="row-actions">
+                ${waUrl ? `<a class="text-button" style="color:#25d366;" href="${escapeHtml(waUrl)}" target="_blank">Reply WhatsApp</a>` : ""}
+                <button class="text-button text-danger" data-delete="/api/admin/messages/${item.id}">Delete</button>
+              </div>
+            </td>
+          </tr>`;
+        }).join("")
+      : emptyRow("No messages received yet.", 6);
+
+    view.innerHTML = panel("Incoming Customer & Contact Messages", `
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Topic</th>
+              <th>Contact Info</th>
+              <th>Message</th>
+              <th>Received At</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+    `);
+  }
+
   function wireDeleteAndCancel() {
     view.onclick = async (event) => {
       const del = event.target.closest("[data-delete]");
@@ -580,7 +630,7 @@
     state.editing = state.editing;
     if (route !== "news" && route !== "advertisements" && route !== "slides" && route !== "categories") state.editing = null;
     try {
-      await ({ dashboard, news, advertisements, slides, categories, settings }[route])();
+      await ({ dashboard, news, advertisements, slides, categories, messages, settings }[route])();
       wireDeleteAndCancel();
     } catch (error) {
       view.innerHTML = `<div class="error-state"><strong>Something went wrong</strong><p>${escapeHtml(error.message)}</p><button class="primary-button" data-retry>Retry</button></div>`;

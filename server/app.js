@@ -68,7 +68,7 @@ app.use("/uploads", express.static(uploadsDir, { maxAge: isProduction ? "1d" : 0
 app.use(express.static(path.join(__dirname, "..", "public"), { maxAge: isProduction ? "1h" : 0 }));
 
 app.get("/admin/login", (req, res) => res.sendFile(path.join(__dirname, "..", "public", "admin", "login.html")));
-app.get(["/admin", "/admin/news", "/admin/advertisements", "/admin/slides", "/admin/categories", "/admin/settings"], requireAdmin, (req, res) => {
+app.get(["/admin", "/admin/news", "/admin/advertisements", "/admin/slides", "/admin/categories", "/admin/settings", "/admin/messages"], requireAdmin, (req, res) => {
   res.sendFile(path.join(__dirname, "..", "public", "admin", "index.html"));
 });
 

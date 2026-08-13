@@ -52,11 +52,12 @@ router.post("/api/auth/logout", requireAdmin, (req, res) => {
 });
 
 router.get("/api/admin/dashboard", requireAdmin, async (req, res) => {
-  const [news, categories, advertisements, slides] = await Promise.all([
+  const [news, categories, advertisements, slides, messages] = await Promise.all([
     stores.news.getAll(),
     stores.categories.getAll(),
     stores.advertisements.getAll(),
-    stores.slides.getAll()
+    stores.slides.getAll(),
+    stores.messages.getAll()
   ]);
   res.json({
     totalNews: news.length,
@@ -66,11 +67,18 @@ router.get("/api/admin/dashboard", requireAdmin, async (req, res) => {
     totalAdvertisements: advertisements.length,
     activeAdvertisements: advertisements.filter((item) => item.active).length,
     categories: categories.length,
-    featuredItems: news.filter((item) => item.isFeatured).length + slides.filter((item) => item.active).length
+    featuredItems: news.filter((item) => item.isFeatured).length + slides.filter((item) => item.active).length,
+    totalMessages: messages.length
   });
 });
 
 router.post("/api/upload", requireAdmin, upload.single("image"), uploadResponse);
+
+router.get("/api/admin/messages", requireAdmin, async (req, res) => res.json(await stores.messages.getAll()));
+router.delete("/api/admin/messages/:id", requireAdmin, async (req, res) => {
+  const deleted = await stores.messages.delete(req.params.id);
+  res.status(deleted ? 200 : 404).json({ ok: deleted });
+});
 
 router.get("/api/admin/news", requireAdmin, async (req, res) => res.json(await stores.news.getAll()));
 router.post("/api/news", requireAdmin, async (req, res) => {
