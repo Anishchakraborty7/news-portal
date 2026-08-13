@@ -9,6 +9,7 @@ module.exports = {
   categories: createResourceStore("categories.json", { slugFrom: "name", sortBy: "order" }),
   advertisements: createResourceStore("advertisements.json", { sortBy: "priority" }),
   slides: createResourceStore("slides.json", { sortBy: "order" }),
+  messages: createResourceStore("messages.json", { sortBy: "createdAt" }),
   settings: new JsonStore(path.join(dataDir, "settings.json")),
   admin: new JsonStore(path.join(dataDir, "admin.json"))
 };

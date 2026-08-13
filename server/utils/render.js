@@ -70,7 +70,7 @@ function publicChrome(settings, categories, content) {
       <a href="/#all-news" class="nav-link">Categories</a>
       <a href="/search?type=video" class="nav-link">Videos</a>
       <a href="/#footer" class="nav-link">About</a>
-      <a href="/#footer" class="nav-link">Contact</a>
+      <button type="button" class="nav-link-btn" data-open-contact>Contact Us</button>
     </nav>
     <form class="header-search" action="/search">
       <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -103,12 +103,64 @@ ${content}
   <div class="footer-contact-col">
     <h4>Contact & Legal</h4>
     <p class="footer-email">${escapeHtml(settings.contactEmail)}</p>
+    <button type="button" class="contact-open-btn" data-open-contact>💬 Open Contact Form / WhatsApp</button>
     <p class="footer-subtext">NR KHABOR News Media Network. All rights reserved.</p>
     <div class="legal-links">
-      <a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a> · <a href="/admin">Admin Access</a>
+      <a href="#">Privacy Policy</a> · <a href="#">Terms of Use</a>
     </div>
   </div>
-</footer>`;
+</footer>
+
+<div class="contact-modal-overlay hidden" id="contact-modal" data-contact-modal>
+  <div class="contact-modal-card">
+    <div class="contact-modal-header">
+      <div class="contact-header-titles">
+        <h3>Contact <span data-brand-name>${escapeHtml(settings.brandName)}</span></h3>
+        <p>Send a message directly to our editorial team or WhatsApp admin.</p>
+      </div>
+      <button type="button" class="contact-modal-close" data-close-contact aria-label="Close Contact Form">✕</button>
+    </div>
+    <form class="contact-modal-form" data-contact-form>
+      <div class="contact-form-grid">
+        <label>
+          <span>Your Full Name *</span>
+          <input type="text" name="name" required placeholder="e.g. Rahul Sharma">
+        </label>
+        <label>
+          <span>WhatsApp / Phone Number</span>
+          <input type="tel" name="phone" placeholder="e.g. +91 98765 43210">
+        </label>
+        <label class="full-width">
+          <span>Email Address *</span>
+          <input type="email" name="email" required placeholder="name@example.com">
+        </label>
+        <label class="full-width">
+          <span>Topic / Department</span>
+          <select name="topic">
+            <option value="General Inquiry">💬 General Inquiry</option>
+            <option value="Breaking News Tip">📰 Breaking News Tip / Story Submission</option>
+            <option value="Advertisement & Sponsorship">💼 Advertisement & Sponsorship</option>
+            <option value="Feedback & Support">🛠️ Feedback & Technical Support</option>
+          </select>
+        </label>
+        <label class="full-width">
+          <span>Your Message *</span>
+          <textarea name="message" rows="4" required placeholder="Write your message or news tip here..."></textarea>
+        </label>
+      </div>
+      <div class="contact-form-actions">
+        <button type="button" class="btn-whatsapp-send" data-send-whatsapp>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 0C5.396 0 .02 5.37.02 12.006c0 2.12.553 4.188 1.603 6.01L.004 24l6.166-1.616A11.93 11.93 0 0 0 12.03 24c6.633 0 12.01-5.37 12.01-12.006 0-3.208-1.25-6.223-3.518-8.49A11.9 11.9 0 0 0 12.03 0zm0 2.2c2.62 0 5.083 1.02 6.938 2.873 1.854 1.854 2.875 4.316 2.875 6.933 0 5.419-4.407 9.83-9.813 9.83-1.802 0-3.568-.493-5.112-1.424l-.367-.22-3.66.96.977-3.567-.242-.386A9.774 9.774 0 0 1 2.22 12.006C2.22 6.586 6.626 2.2 12.03 2.2z"/></svg>
+          <span>Send via WhatsApp</span>
+        </button>
+        <button type="submit" class="btn-email-send" data-send-email>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          <span>Submit Form</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>`;
 }
 
 function renderAdItem(ad) {

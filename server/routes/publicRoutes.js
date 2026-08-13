@@ -163,6 +163,31 @@ router.get("/sitemap.xml", async (req, res) => {
   res.type("xml").send(`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${urls.map((url) => `<url><loc>${base}${url}</loc></url>`).join("")}</urlset>`);
 });
 
+router.post("/api/contact", async (req, res) => {
+  const name = String(req.body.name || "").trim().slice(0, 100);
+  const email = String(req.body.email || "").trim().slice(0, 120);
+  const phone = String(req.body.phone || "").trim().slice(0, 30);
+  const topic = String(req.body.topic || "General Inquiry").trim().slice(0, 80);
+  const message = String(req.body.message || "").trim().slice(0, 2000);
+
+  if (!name || (!email && !phone) || !message) {
+    return res.status(422).json({ error: "Please provide your name, email or phone, and a message." });
+  }
+
+  const record = {
+    name,
+    email,
+    phone,
+    topic,
+    message,
+    createdAt: new Date().toISOString(),
+    read: false
+  };
+
+  await stores.messages.create(record);
+  res.json({ ok: true, message: "Your message has been sent successfully. We will get back to you soon!" });
+});
+
 router.get("/robots.txt", (req, res) => {
   res.type("text/plain").send("User-agent: *\nAllow: /\nSitemap: /sitemap.xml\n");
 });

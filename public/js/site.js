@@ -289,6 +289,98 @@
     setTimeout(() => toast.classList.remove("show"), 2600);
   }
 
+  function wireContactModal() {
+    const modal = $("[data-contact-modal]");
+    if (!modal) return;
+
+    const openBtns = $$("[data-open-contact]");
+    const closeBtn = $("[data-close-contact]", modal);
+    const form = $("[data-contact-form]", modal);
+    const whatsappBtn = $("[data-send-whatsapp]", modal);
+
+    const openModal = () => {
+      modal.classList.remove("hidden");
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+      modal.classList.add("hidden");
+      document.body.style.overflow = "";
+    };
+
+    openBtns.forEach((btn) => btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openModal();
+    }));
+
+    closeBtn?.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    });
+
+    // Send via WhatsApp
+    whatsappBtn?.addEventListener("click", async () => {
+      const name = form.elements["name"]?.value.trim() || "";
+      const phone = form.elements["phone"]?.value.trim() || "";
+      const email = form.elements["email"]?.value.trim() || "";
+      const topic = form.elements["topic"]?.value || "General Inquiry";
+      const message = form.elements["message"]?.value.trim() || "";
+
+      if (!name || !message) {
+        showToast("Please fill in your Name and Message first.");
+        return;
+      }
+
+      let adminPhone = "919876543210";
+      try {
+        const sRes = await fetch("/api/settings");
+        const sData = await sRes.json();
+        if (sData.contactWhatsapp) adminPhone = sData.contactWhatsapp.replace(/\D/g, "");
+      } catch {}
+
+      const text = `*NR KHABAR - New Contact Inquiry*\n\n*Name:* ${name}\n*Topic:* ${topic}\n*Phone:* ${phone || "N/A"}\n*Email:* ${email || "N/A"}\n\n*Message:* ${message}`;
+      const waUrl = `https://api.whatsapp.com/send?phone=${adminPhone}&text=${encodeURIComponent(text)}`;
+      window.open(waUrl, "_blank");
+      showToast("Opening WhatsApp...");
+      closeModal();
+    });
+
+    // Send via Email / Backend API
+    form?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: form.elements["name"]?.value.trim(),
+        phone: form.elements["phone"]?.value.trim(),
+        email: form.elements["email"]?.value.trim(),
+        topic: form.elements["topic"]?.value,
+        message: form.elements["message"]?.value.trim()
+      };
+
+      try {
+        const res = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showToast(data.message || "Message sent successfully!");
+          form.reset();
+          closeModal();
+        } else {
+          showToast(data.error || "Failed to send message.");
+        }
+      } catch (err) {
+        showToast("Network error. Please try again.");
+      }
+    });
+  }
+
   function wireCommon() {
     updateLiveDate();
     $(".menu-toggle")?.addEventListener("click", () => $("[data-mobile-nav]")?.classList.toggle("open"));
@@ -305,6 +397,7 @@
       navigator.clipboard.writeText(button.dataset.copy);
       showToast("Link copied to clipboard!");
     }));
+    wireContactModal();
     initAnimations();
   }
 

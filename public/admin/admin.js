@@ -521,6 +521,7 @@
           
           <label>Site URL<input name="siteUrl" value="${escapeHtml(item.siteUrl || "")}"></label>
           <label>Contact Email<input name="contactEmail" value="${escapeHtml(item.contactEmail || "")}"></label>
+          <label>Contact WhatsApp Number<input name="contactWhatsapp" placeholder="e.g. 919876543210" value="${escapeHtml(item.contactWhatsapp || "")}"></label>
           <label class="full-span">Description<textarea name="description">${escapeHtml(item.description || "")}</textarea></label>
           <label>Facebook<input name="facebook" value="${escapeHtml(item.social?.facebook || "")}"></label>
           <label>YouTube<input name="youtube" value="${escapeHtml(item.social?.youtube || "")}"></label>
