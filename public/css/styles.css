@@ -1973,76 +1973,100 @@ main {
    Contact Modal & Form Styles
    ========================================================================== */
 
-.nav-link-btn {
-  background: none;
+button.nav-link-btn,
+.main-nav button.nav-link {
+  background: transparent;
   border: none;
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
   color: var(--text-secondary);
-  cursor: pointer;
   padding: 6px 2px;
+  cursor: pointer;
+  position: relative;
   transition: color var(--transition-fast);
 }
 
-.nav-link-btn:hover {
+button.nav-link-btn::after,
+.main-nav button.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width var(--transition-normal);
+}
+
+button.nav-link-btn:hover,
+.main-nav button.nav-link:hover {
   color: var(--accent);
+}
+
+button.nav-link-btn:hover::after,
+.main-nav button.nav-link:hover::after {
+  width: 100%;
 }
 
 .contact-open-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 1px solid var(--accent);
   color: #ffffff;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: var(--radius-full);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 12px;
+  box-shadow: 0 4px 14px rgba(230, 57, 70, 0.25);
   transition: all var(--transition-fast);
 }
 
 .contact-open-btn:hover {
-  background: #25d366;
-  border-color: #25d366;
+  background: var(--accent);
   color: #ffffff;
-  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
 }
 
 .contact-modal-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(9, 16, 31, 0.75);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  background: rgba(9, 16, 31, 0.85) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  overflow-y: auto !important;
 }
 
-.contact-modal-overlay.hidden {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
+.contact-modal-overlay.hidden,
+[data-contact-modal].hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
 
 .contact-modal-card {
   background: var(--surface);
   color: var(--text-primary);
   width: 100%;
-  max-width: 540px;
+  max-width: 560px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-strong);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
   overflow: hidden;
   animation: modalPop 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  margin: auto;
 }
 
 @keyframes modalPop {
@@ -2051,7 +2075,7 @@ main {
 }
 
 .contact-modal-header {
-  padding: 20px 24px;
+  padding: 22px 26px;
   background: linear-gradient(135deg, #0b132b 0%, #1c2541 100%);
   color: #ffffff;
   display: flex;
@@ -2070,15 +2094,15 @@ main {
 .contact-header-titles p {
   margin: 4px 0 0;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .contact-modal-close {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
   border: 0;
   color: #ffffff;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -2092,13 +2116,13 @@ main {
 }
 
 .contact-modal-form {
-  padding: 24px;
+  padding: 26px;
 }
 
 .contact-form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
 .contact-form-grid label {
@@ -2117,13 +2141,14 @@ main {
 .contact-form-grid input,
 .contact-form-grid select,
 .contact-form-grid textarea {
-  padding: 10px 14px;
+  padding: 11px 15px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-strong);
   background: var(--surface-subtle);
   color: var(--text-primary);
   font-size: 14px;
   outline: none;
+  font-family: inherit;
   transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -2138,8 +2163,8 @@ main {
 .contact-form-actions {
   display: flex;
   gap: 12px;
-  margin-top: 20px;
-  padding-top: 16px;
+  margin-top: 22px;
+  padding-top: 18px;
   border-top: 1px solid var(--border);
 }
 
