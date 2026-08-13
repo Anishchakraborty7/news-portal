@@ -29,6 +29,18 @@
     return data;
   }
 
+  async function uploadImage(fileInput) {
+    const file = fileInput.files?.[0];
+    if (!file) return "";
+    const formData = new FormData();
+    formData.append("image", file);
+    const res = await api("/api/upload", {
+      method: "POST",
+      body: formData
+    });
+    return res.url || "";
+  }
+
   function setLoading(label = "Loading workspace") {
     view.innerHTML = `<div class="loading-state"><span></span><strong>${escapeHtml(label)}</strong><p>Please wait while the admin data is prepared.</p></div>`;
   }
