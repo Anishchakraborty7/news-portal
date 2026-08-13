@@ -92,30 +92,41 @@
   }
 
   async function dashboard() {
-    title.textContent = "Dashboard";
+    title.textContent = "Dashboard Overview";
     setActive("dashboard");
-    setLoading("Loading dashboard");
+    setLoading("Loading dashboard metrics");
     const data = await api("/api/admin/dashboard");
-    const labels = {
-      totalNews: "Total News",
-      breakingNews: "Breaking News",
-      publishedNews: "Published News",
-      draftNews: "Draft News",
-      totalAdvertisements: "Total Ads",
-      activeAdvertisements: "Active Ads",
-      categories: "Categories",
-      featuredItems: "Featured Items",
-      totalMessages: "Incoming Messages"
-    };
-    view.innerHTML = `
-      <div class="metric-grid">${Object.entries(labels).map(([key, label]) => `<article class="metric-card"><span>${label}</span><strong>${data[key]}</strong></article>`).join("")}</div>
-      <section class="admin-panel welcome-panel">
-        <div>
-          <p class="eyebrow">Ready</p>
-          <h2>Manage every live section from one clean studio.</h2>
-          <p>Publish news, control advertisements, update slides, organize categories, and keep site settings fresh.</p>
+    const metrics = [
+      { key: "totalNews", label: "Total News Stories", icon: "📰", color: "indigo" },
+      { key: "breakingNews", label: "Breaking News", icon: "⚡", color: "crimson" },
+      { key: "publishedNews", label: "Published Live", icon: "✅", color: "emerald" },
+      { key: "draftNews", label: "Draft Stories", icon: "📝", color: "amber" },
+      { key: "totalAdvertisements", label: "Total Ads", icon: "📢", color: "sky" },
+      { key: "activeAdvertisements", label: "Active Live Ads", icon: "🌟", color: "teal" },
+      { key: "categories", label: "Categories", icon: "🏷️", color: "purple" },
+      { key: "featuredItems", label: "Featured & Slides", icon: "⭐", color: "gold" },
+      { key: "totalMessages", label: "Incoming Messages", icon: "💬", color: "pink" }
+    ];
+
+    const cardsMarkup = metrics.map((m) => `
+      <article class="metric-card theme-${m.color}">
+        <div class="metric-head">
+          <span class="metric-label">${escapeHtml(m.label)}</span>
+          <span class="metric-icon-badge">${m.icon}</span>
         </div>
-        <a class="primary-button" href="/admin/news">Create News</a>
+        <strong class="metric-value">${data[m.key] ?? 0}</strong>
+      </article>
+    `).join("");
+
+    view.innerHTML = `
+      <div class="metric-grid">${cardsMarkup}</div>
+      <section class="admin-panel welcome-panel">
+        <div class="welcome-text-content">
+          <p class="eyebrow">NR KHABOR CMS</p>
+          <h2>Manage live news stories, Cloudinary media & ad placement.</h2>
+          <p>Publish breaking updates, upload photos, manage ad campaigns, track visitor messages, and customize portal settings in real time.</p>
+        </div>
+        <a class="primary-button" href="/admin/news">+ Create News Story</a>
       </section>`;
   }
 
