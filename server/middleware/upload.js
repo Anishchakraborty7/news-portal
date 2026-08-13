@@ -1,4 +1,5 @@
 const path = require("path");
+const fs = require("fs");
 const crypto = require("crypto");
 const multer = require("multer");
 const cloudinary = require("cloudinary").v2;
@@ -29,32 +30,46 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 }
 });
 
-function cloudinaryConfigured() {
-  return Boolean(
-    process.env.CLOUDINARY_CLOUD_NAME &&
-      process.env.CLOUDINARY_API_KEY &&
-      process.env.CLOUDINARY_API_SECRET
-  );
-}
-
-if (cloudinaryConfigured()) {
-  cloudinary.config({
+function getCloudinaryConfig() {
+  return {
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET
-  });
+  };
+}
+
+function cloudinaryConfigured() {
+  const config = getCloudinaryConfig();
+  return Boolean(config.cloud_name && config.api_key && config.api_secret);
 }
 
 async function uploadResponse(req, res) {
   if (!req.file) return res.status(400).json({ error: "Image file is required" });
+
   if (cloudinaryConfigured()) {
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      folder: "premium-news-portal",
-      resource_type: "image"
-    });
-    return res.json({ url: result.secure_url, provider: "cloudinary" });
+    try {
+      cloudinary.config(getCloudinaryConfig());
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: "nrkhabor-portal",
+        resource_type: "image"
+      });
+
+      // Remove local temporary file after successful Cloudinary upload
+      if (fs.existsSync(req.file.path)) {
+        fs.unlink(req.file.path, (err) => {
+          if (err) console.error("Could not remove temp file:", err);
+        });
+      }
+
+      return res.json({ url: result.secure_url, provider: "cloudinary" });
+    } catch (err) {
+      console.error("Cloudinary upload failed, falling back to local:", err.message);
+      return res.json({ url: `/uploads/${req.file.filename}`, provider: "local" });
+    }
   }
+
   return res.json({ url: `/uploads/${req.file.filename}`, provider: "local" });
 }
 
 module.exports = { upload, uploadResponse };
+
